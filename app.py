@@ -145,9 +145,5 @@ Future Enhancements:
 - Integrations with other tools
 - Personalization features
 """
-st.markdown(result)
 
-
-
-
-
+    st.markdown(result)
