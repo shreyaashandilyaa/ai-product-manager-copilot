@@ -5,9 +5,9 @@ from ui import render_header, render_tool_selector, render_output, render_histor
 from utils import generate_pdf
 
 
-# -------------------------
+# -----------------------------
 # PAGE CONFIG
-# -------------------------
+# -----------------------------
 
 st.set_page_config(
     page_title="AI Product Studio",
@@ -16,9 +16,9 @@ st.set_page_config(
 )
 
 
-# -------------------------
-# BACKGROUND IMAGE
-# -------------------------
+# -----------------------------
+# BACKGROUND STYLE
+# -----------------------------
 
 def set_background(image_file):
 
@@ -35,25 +35,21 @@ def set_background(image_file):
         background-attachment: fixed;
     }}
 
-    /* Make main content readable */
     .block-container {{
         background: rgba(255,255,255,0.92);
         padding: 2rem;
         border-radius: 15px;
     }}
 
-    /* Restore sidebar visibility */
     section[data-testid="stSidebar"] {{
         background: rgba(255,255,255,0.95);
     }}
 
-    /* Style the main title */
     h1 {{
         color: #ff4db8;
         font-weight: 700;
     }}
 
-    /* Style subtitles */
     h2, h3 {{
         color: #4a6cf7;
     }}
@@ -67,17 +63,39 @@ def set_background(image_file):
 set_background("assets/background.jpg")
 
 
-# -------------------------
+# -----------------------------
+# SIDEBAR
+# -----------------------------
+
+with st.sidebar:
+
+    st.title("🧠 AI Product Studio")
+
+    st.markdown("Generate product management artifacts from product ideas.")
+
+    st.divider()
+
+    st.markdown("### Available Tools")
+
+    st.markdown("""
+- 📄 PRD Generator  
+- 📝 User Stories  
+- 📊 Feature Prioritization  
+- 🚀 MVP Scope
+""")
+
+
+# -----------------------------
 # SESSION STATE
-# -------------------------
+# -----------------------------
 
 if "history" not in st.session_state:
     st.session_state.history = []
 
 
-# -------------------------
-# UI
-# -------------------------
+# -----------------------------
+# MAIN UI
+# -----------------------------
 
 render_header()
 
@@ -87,9 +105,9 @@ result = ""
 pdf_file = None
 
 
-# -------------------------
+# -----------------------------
 # GENERATION LOGIC
-# -------------------------
+# -----------------------------
 
 if st.button("Run AI Tool"):
 
@@ -178,9 +196,9 @@ Future Enhancements:
     })
 
 
-# -------------------------
-# DISPLAY OUTPUT
-# -------------------------
+# -----------------------------
+# OUTPUT DISPLAY
+# -----------------------------
 
 render_output(result, pdf_file)
 
