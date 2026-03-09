@@ -2,6 +2,7 @@ import streamlit as st
 import base64
 
 from ui import render_header, render_tool_selector, render_output, render_history
+from utils import generate_pdf
 
 
 # -------------------------
@@ -16,7 +17,7 @@ st.set_page_config(
 
 
 # -------------------------
-# BACKGROUND IMAGE FUNCTION
+# BACKGROUND IMAGE
 # -------------------------
 
 def set_background(image_file):
@@ -35,7 +36,7 @@ def set_background(image_file):
     }}
 
     .block-container {{
-        background: rgba(255, 255, 255, 0.90);
+        background: rgba(255,255,255,0.9);
         padding: 2rem;
         border-radius: 15px;
     }}
@@ -46,7 +47,6 @@ def set_background(image_file):
     st.markdown(page_bg, unsafe_allow_html=True)
 
 
-# Apply background
 set_background("assets/background.jpg")
 
 
@@ -59,7 +59,7 @@ if "history" not in st.session_state:
 
 
 # -------------------------
-# UI RENDERING
+# UI
 # -------------------------
 
 render_header()
@@ -67,6 +67,7 @@ render_header()
 feature, idea = render_tool_selector()
 
 result = ""
+pdf_file = None
 
 
 # -------------------------
@@ -97,6 +98,11 @@ Users currently face inefficiencies and lack convenient tools to address this ch
 - Simple interface
 - Reliable performance
 
+### MVP Scope
+- Initial product addressing the core user problem
+- Simple onboarding
+- Core workflow execution
+
 ### Success Metrics
 - Adoption rate
 - Engagement
@@ -111,6 +117,8 @@ Users currently face inefficiencies and lack convenient tools to address this ch
 1. As a user, I want to use **{idea}** so that I can solve my problem efficiently.
 
 2. As a user, I want a simple interface so that I can interact with the system easily.
+
+3. As a product team, we want analytics so that we can measure product success.
 """
 
     elif feature == "Feature Prioritization":
@@ -123,7 +131,9 @@ Feature: **{idea}**
 Reach: Medium  
 Impact: High  
 Confidence: Medium  
-Effort: Medium
+Effort: Medium  
+
+Priority: Strong candidate for MVP.
 """
 
     elif feature == "Define MVP Scope":
@@ -131,13 +141,19 @@ Effort: Medium
         result = f"""
 ## MVP Scope
 
-Core Features
+Core Features:
 - Basic implementation of **{idea}**
 - Simple onboarding
 - Core workflow functionality
+
+Future Enhancements:
+- Advanced automation
+- Integrations with external tools
+- Personalization features
 """
 
-    # Save to history
+    pdf_file = generate_pdf(result)
+
     st.session_state.history.append({
         "idea": idea,
         "feature": feature,
@@ -149,6 +165,6 @@ Core Features
 # DISPLAY OUTPUT
 # -------------------------
 
-render_output(result)
+render_output(result, pdf_file)
 
 render_history(st.session_state.history)
