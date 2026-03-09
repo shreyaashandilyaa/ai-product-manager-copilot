@@ -1,50 +1,33 @@
 import streamlit as st
 
 
-def sidebar_navigation():
+def render_header():
 
-    st.sidebar.title("AI Product Studio")
+    st.title("🚀 AI Product Strategy Copilot")
+    st.caption("Generate structured Product Management artifacts from product ideas")
 
-    page = st.sidebar.radio(
-        "Navigation",
-        ["Generate Artifacts", "History"]
+
+def render_tool_selector():
+
+    feature = st.selectbox(
+        "Choose a tool",
+        [
+            "Generate PRD",
+            "Generate User Stories",
+            "Feature Prioritization",
+            "Define MVP Scope"
+        ]
     )
-
-    return page
-
-
-def render_tool_cards():
-
-    st.subheader("Choose a Product Tool")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        if st.button("📄 Generate PRD"):
-            st.session_state.tool = "Generate PRD"
-
-        if st.button("🧩 Feature Prioritization"):
-            st.session_state.tool = "Feature Prioritization"
-
-    with col2:
-        if st.button("📝 User Stories"):
-            st.session_state.tool = "Generate User Stories"
-
-        if st.button("🚀 Define MVP Scope"):
-            st.session_state.tool = "Define MVP Scope"
-
-
-def render_input():
 
     idea = st.text_area(
         "Enter your product idea",
-        placeholder="Example: An app that helps drivers find parking spots in busy cities"
+        placeholder="Example: An app that helps drivers find parking spaces in crowded cities"
     )
 
-    return idea
+    return feature, idea
 
 
-def render_output(result, pdf_file):
+def render_output(result, pdf_file=None):
 
     if result:
 
@@ -55,26 +38,32 @@ def render_output(result, pdf_file):
         col1, col2 = st.columns(2)
 
         with col1:
+
             st.download_button(
-                "Download Markdown",
+                label="Download Markdown",
                 data=result,
                 file_name="artifact.md",
                 mime="text/markdown"
             )
 
-        with col2:
-            with open(pdf_file, "rb") as f:
-                st.download_button(
-                    "Download PDF",
-                    data=f,
-                    file_name="artifact.pdf",
-                    mime="application/pdf"
-                )
+        if pdf_file:
+
+            with col2:
+
+                with open(pdf_file, "rb") as f:
+
+                    st.download_button(
+                        label="Download PDF",
+                        data=f,
+                        file_name="artifact.pdf",
+                        mime="application/pdf"
+                    )
 
 
 def render_history(history):
 
-    st.title("Artifact History")
+    st.divider()
+    st.subheader("Generated Outputs History")
 
     for index, item in enumerate(reversed(history)):
 
@@ -83,9 +72,9 @@ def render_history(history):
             st.markdown(item["result"])
 
             st.download_button(
-                "Download",
+                label="Download Markdown",
                 data=item["result"],
-                file_name=f"{item['feature']}_{index}.md",
+                file_name=f"{item['feature'].replace(' ', '_')}_{index}.md",
                 mime="text/markdown",
                 key=f"history_{index}"
             )
