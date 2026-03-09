@@ -1,10 +1,7 @@
 import streamlit as st
-from huggingface_hub import InferenceClient
 
 st.title("AI Product Manager Copilot")
-st.write("AI assistant for product managers to generate product documentation.")
-
-client = InferenceClient(model="mistralai/Mistral-7B-Instruct-v0.2")
+st.write("Prototype tool that converts product ideas into structured PM artifacts.")
 
 feature = st.selectbox(
     "Choose a tool",
@@ -20,17 +17,60 @@ idea = st.text_area("Enter your product idea")
 
 if st.button("Run AI Tool"):
 
-    prompt = f"""
-    You are an expert product manager.
+    if feature == "Generate PRD":
+        result = f"""
+### Problem Statement
+Users struggle with the following problem: {idea}
 
-    Based on this product idea:
-    {idea}
+### Target Users
+- Primary users who face this challenge
+- Early adopters interested in productivity tools
 
-    Perform the task: {feature}
+### Proposed Solution
+A product that addresses the problem through automation and intelligent workflows.
 
-    Provide a structured answer.
-    """
+### Success Metrics
+- User adoption rate
+- Feature engagement
+- Retention rate
+"""
 
-    response = client.text_generation(prompt, max_new_tokens=500)
+    elif feature == "Generate User Stories":
+        result = f"""
+### User Stories
 
-    st.write(response)
+1. As a user, I want to use {idea} so that I can solve my problem efficiently.
+2. As a user, I want a simple interface so that I can quickly interact with the system.
+3. As a product team, we want analytics so we can measure feature adoption.
+"""
+
+    elif feature == "Feature Prioritization":
+        result = f"""
+### Feature Prioritization (RICE)
+
+Feature: {idea}
+
+Reach: Medium  
+Impact: High  
+Confidence: Medium  
+Effort: Medium  
+
+Priority Score: High priority for MVP experimentation.
+"""
+
+    else:
+        result = f"""
+### MVP Scope
+
+Core Features:
+- Basic version of {idea}
+- Simple onboarding
+- Core workflow functionality
+
+Future Enhancements:
+- Advanced automation
+- Integrations with other tools
+- Personalization features
+"""
+
+    st.markdown(result)
