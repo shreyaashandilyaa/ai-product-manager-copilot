@@ -1,11 +1,10 @@
 import streamlit as st
-from openai import OpenAI
-import os
+from huggingface_hub import InferenceClient
 
 st.title("AI Product Manager Copilot")
-st.write("AI assistant to help product managers generate product documentation.")
+st.write("AI assistant for product managers to generate product documentation.")
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = InferenceClient(model="mistralai/Mistral-7B-Instruct-v0.2")
 
 feature = st.selectbox(
     "Choose a tool",
@@ -24,18 +23,14 @@ if st.button("Run AI Tool"):
     prompt = f"""
     You are an expert product manager.
 
-    Based on the following idea:
-
+    Based on this product idea:
     {idea}
 
-    Perform this task: {feature}
+    Perform the task: {feature}
 
-    Provide a structured response.
+    Provide a structured answer.
     """
 
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[{"role": "user", "content": prompt}]
-    )
+    response = client.text_generation(prompt, max_new_tokens=500)
 
-    st.write(response.choices[0].message.content)
+    st.write(response)
