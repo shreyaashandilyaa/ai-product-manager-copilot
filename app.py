@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("AI Product Manager Copilot")
+st.title("AI Product Strategy Copilot")
 st.write("Prototype tool that converts product ideas into structured PM artifacts.")
 
 feature = st.selectbox(
@@ -153,4 +153,5 @@ Future Enhancements:
 """
 
     st.markdown(result)
+
 
