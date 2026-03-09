@@ -36,7 +36,7 @@ def set_background(image_file):
         background-attachment: fixed;
     }}
 
-    /* Main dashboard container */
+    /* Main content container */
     .block-container {{
         background: rgba(255,255,255,0.92);
         padding: 2rem;
@@ -52,6 +52,21 @@ def set_background(image_file):
 
     /* Default text */
     p, label, div {{
+        color: #1f2937 !important;
+    }}
+
+    /* Dropdown (selectbox) text */
+    div[data-baseweb="select"] > div {{
+        background-color: white !important;
+        color: #1f2937 !important;
+    }}
+
+    div[data-baseweb="select"] span {{
+        color: #1f2937 !important;
+    }}
+
+    /* Text area */
+    textarea {{
         color: #1f2937 !important;
     }}
 
