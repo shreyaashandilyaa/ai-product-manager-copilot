@@ -158,7 +158,7 @@ Future Enhancements:
     # Display output
     st.markdown(result)
 
-    # Download button
+    # Download current output
     st.download_button(
         label="Download Output",
         data=result,
@@ -174,10 +174,20 @@ Future Enhancements:
     })
 
 
-# History Section
+# HISTORY SECTION
 st.divider()
 st.subheader("Generated Outputs History")
 
-for item in reversed(st.session_state.history):
+for index, item in enumerate(reversed(st.session_state.history)):
+
     with st.expander(f"{item['feature']} – {item['idea'][:40]}"):
+
         st.markdown(item["result"])
+
+        st.download_button(
+            label="Download this output",
+            data=item["result"],
+            file_name=f"{item['feature'].replace(' ', '_')}_{index}.md",
+            mime="text/markdown",
+            key=f"download_{index}"
+        )
