@@ -18,7 +18,7 @@ idea = st.text_area("Enter your product idea")
 if st.button("Run AI Tool"):
 
     if feature == "Generate PRD":
-    result = f"""
+        result = f"""
 ## Product Requirement Document (PRD)
 
 ### 1. Product Overview
@@ -145,8 +145,8 @@ Future Enhancements:
 - Integrations with other tools
 - Personalization features
 """
+        st.markdown(result)
 
-    st.markdown(result)
 
 
 
