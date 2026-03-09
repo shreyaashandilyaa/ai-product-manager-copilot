@@ -1,7 +1,11 @@
 import streamlit as st
 
+# Initialize history storage
+if "history" not in st.session_state:
+    st.session_state.history = []
+
 st.title("AI Product Strategy Copilot")
-st.write("Prototype tool that converts product ideas into structured PM artifacts.")
+st.write("Prototype tool that converts product ideas into structured Product Management artifacts.")
 
 feature = st.selectbox(
     "Choose a tool",
@@ -14,6 +18,8 @@ feature = st.selectbox(
 )
 
 idea = st.text_area("Enter your product idea")
+
+result = ""
 
 if st.button("Run AI Tool"):
 
@@ -60,7 +66,6 @@ Requires more advanced functionality and reliability for frequent usage.
 ---
 
 ### 5. User Stories
-
 1. As a user, I want to use this solution so that I can address the problem quickly.
 2. As a user, I want a simple interface so that I can easily navigate the product.
 3. As a user, I want reliable results so that I trust the platform.
@@ -110,40 +115,69 @@ Mitigation strategies include iterative development and continuous user feedback
 
     elif feature == "Generate User Stories":
         result = f"""
-### User Stories
+## User Stories
 
-1. As a user, I want to use {idea} so that I can solve my problem efficiently.
+1. As a user, I want to use **{idea}** so that I can solve my problem efficiently.
+
 2. As a user, I want a simple interface so that I can quickly interact with the system.
-3. As a product team, we want analytics so we can measure feature adoption.
+
+3. As a product team, we want analytics so we can measure feature adoption and improve the product.
 """
 
     elif feature == "Feature Prioritization":
         result = f"""
-### Feature Prioritization (RICE)
+## Feature Prioritization (RICE Framework)
 
-Feature: {idea}
+Feature Idea: **{idea}**
 
 Reach: Medium  
 Impact: High  
 Confidence: Medium  
 Effort: Medium  
 
-Priority Score: High priority for MVP experimentation.
+### Priority Score
+High priority candidate for MVP experimentation.
 """
 
-    else:
+    elif feature == "Define MVP Scope":
         result = f"""
-### MVP Scope
+## MVP Scope
 
 Core Features:
-- Basic version of {idea}
-- Simple onboarding
-- Core workflow functionality
+- Basic implementation of **{idea}**
+- Simple onboarding flow
+- Core user workflow
+- Basic analytics tracking
 
 Future Enhancements:
 - Advanced automation
-- Integrations with other tools
-- Personalization features
+- Integrations with other platforms
+- Personalization capabilities
 """
 
+    # Display output
     st.markdown(result)
+
+    # Download button
+    st.download_button(
+        label="Download Output",
+        data=result,
+        file_name="pm_output.md",
+        mime="text/markdown"
+    )
+
+    # Save to history
+    st.session_state.history.append({
+        "idea": idea,
+        "feature": feature,
+        "result": result
+    })
+
+
+# History Section
+st.divider()
+st.subheader("Generated Outputs History")
+
+for item in reversed(st.session_state.history):
+    with st.expander(f"{item['feature']} – {item['idea'][:40]}"):
+        st.markdown(item["result"])
