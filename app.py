@@ -17,7 +17,7 @@ st.set_page_config(
 
 
 # -----------------------------
-# BACKGROUND STYLE
+# BACKGROUND + UI STYLING
 # -----------------------------
 
 def set_background(image_file):
@@ -28,6 +28,7 @@ def set_background(image_file):
     page_bg = f"""
     <style>
 
+    /* Background image */
     .stApp {{
         background-image: url("data:image/jpg;base64,{encoded}");
         background-size: cover;
@@ -35,23 +36,34 @@ def set_background(image_file):
         background-attachment: fixed;
     }}
 
+    /* Main dashboard container */
     .block-container {{
         background: rgba(255,255,255,0.92);
         padding: 2rem;
         border-radius: 15px;
+        color: #1f2937;
     }}
 
+    /* Sidebar */
     section[data-testid="stSidebar"] {{
         background: rgba(255,255,255,0.95);
+        color: #1f2937;
     }}
 
+    /* Default text */
+    p, label, div {{
+        color: #1f2937 !important;
+    }}
+
+    /* Main title */
     h1 {{
-        color: #ff4db8;
+        color: #ff4db8 !important;
         font-weight: 700;
     }}
 
+    /* Section titles */
     h2, h3 {{
-        color: #4a6cf7;
+        color: #4a6cf7 !important;
     }}
 
     </style>
@@ -197,7 +209,7 @@ Future Enhancements:
 
 
 # -----------------------------
-# OUTPUT DISPLAY
+# OUTPUT
 # -----------------------------
 
 render_output(result, pdf_file)
