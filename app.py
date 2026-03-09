@@ -35,10 +35,27 @@ def set_background(image_file):
         background-attachment: fixed;
     }}
 
+    /* Make main content readable */
     .block-container {{
-        background: rgba(255,255,255,0.9);
+        background: rgba(255,255,255,0.92);
         padding: 2rem;
         border-radius: 15px;
+    }}
+
+    /* Restore sidebar visibility */
+    section[data-testid="stSidebar"] {{
+        background: rgba(255,255,255,0.95);
+    }}
+
+    /* Style the main title */
+    h1 {{
+        color: #ff4db8;
+        font-weight: 700;
+    }}
+
+    /* Style subtitles */
+    h2, h3 {{
+        color: #4a6cf7;
     }}
 
     </style>
