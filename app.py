@@ -1,6 +1,12 @@
 import streamlit as st
-from ui import sidebar_navigation, render_tool_cards, render_input, render_output, render_history
-from utils import generate_pdf
+import base64
+
+from ui import render_header, render_tool_selector, render_output, render_history
+
+
+# -------------------------
+# PAGE CONFIG
+# -------------------------
 
 st.set_page_config(
     page_title="AI Product Studio",
@@ -8,42 +14,79 @@ st.set_page_config(
     layout="wide"
 )
 
+
+# -------------------------
+# BACKGROUND IMAGE FUNCTION
+# -------------------------
+
+def set_background(image_file):
+
+    with open(image_file, "rb") as img_file:
+        encoded = base64.b64encode(img_file.read()).decode()
+
+    page_bg = f"""
+    <style>
+
+    .stApp {{
+        background-image: url("data:image/jpg;base64,{encoded}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }}
+
+    .block-container {{
+        background: rgba(255, 255, 255, 0.90);
+        padding: 2rem;
+        border-radius: 15px;
+    }}
+
+    </style>
+    """
+
+    st.markdown(page_bg, unsafe_allow_html=True)
+
+
+# Apply background
+set_background("assets/background.jpg")
+
+
+# -------------------------
+# SESSION STATE
+# -------------------------
+
 if "history" not in st.session_state:
     st.session_state.history = []
 
-if "tool" not in st.session_state:
-    st.session_state.tool = None
+
+# -------------------------
+# UI RENDERING
+# -------------------------
+
+render_header()
+
+feature, idea = render_tool_selector()
+
+result = ""
 
 
-page = sidebar_navigation()
+# -------------------------
+# GENERATION LOGIC
+# -------------------------
 
+if st.button("Run AI Tool"):
 
-if page == "Generate Artifacts":
+    if feature == "Generate PRD":
 
-    st.title("AI Product Studio")
+        result = f"""
+## Product Requirement Document (PRD)
 
-    st.caption("Generate structured Product Management artifacts from product ideas.")
+### Product Overview
+**{idea}**
 
-    render_tool_cards()
-
-    idea = render_input()
-
-    result = ""
-
-    if st.session_state.tool and st.button("Generate"):
-
-        tool = st.session_state.tool
-
-        if tool == "Generate PRD":
-
-            result = f"""
-## Product Requirement Document
-
-### Product Idea
-{idea}
+This product aims to solve the problem by delivering a streamlined user experience.
 
 ### Problem Statement
-Users currently lack efficient solutions for this problem.
+Users currently face inefficiencies and lack convenient tools to address this challenge.
 
 ### Target Users
 - Individuals facing this challenge
@@ -60,22 +103,22 @@ Users currently lack efficient solutions for this problem.
 - Retention
 """
 
-        elif tool == "Generate User Stories":
+    elif feature == "Generate User Stories":
 
-            result = f"""
+        result = f"""
 ## User Stories
 
-1. As a user, I want to use {idea} so that I can solve my problem quickly.
+1. As a user, I want to use **{idea}** so that I can solve my problem efficiently.
 
-2. As a user, I want a simple interface so I can interact easily.
+2. As a user, I want a simple interface so that I can interact with the system easily.
 """
 
-        elif tool == "Feature Prioritization":
+    elif feature == "Feature Prioritization":
 
-            result = f"""
-## Feature Prioritization
+        result = f"""
+## Feature Prioritization (RICE Framework)
 
-Feature: {idea}
+Feature: **{idea}**
 
 Reach: Medium  
 Impact: High  
@@ -83,28 +126,29 @@ Confidence: Medium
 Effort: Medium
 """
 
-        elif tool == "Define MVP Scope":
+    elif feature == "Define MVP Scope":
 
-            result = f"""
+        result = f"""
 ## MVP Scope
 
 Core Features
-- Basic implementation of {idea}
+- Basic implementation of **{idea}**
 - Simple onboarding
 - Core workflow functionality
 """
 
-        pdf_file = generate_pdf(result)
-
-        st.session_state.history.append({
-            "idea": idea,
-            "feature": tool,
-            "result": result
-        })
-
-        render_output(result, pdf_file)
+    # Save to history
+    st.session_state.history.append({
+        "idea": idea,
+        "feature": feature,
+        "result": result
+    })
 
 
-elif page == "History":
+# -------------------------
+# DISPLAY OUTPUT
+# -------------------------
 
-    render_history(st.session_state.history)
+render_output(result)
+
+render_history(st.session_state.history)
