@@ -1,31 +1,32 @@
 import streamlit as st
 from openai import OpenAI
+import os
 
 st.title("AI Product Manager Copilot")
-st.write("AI assistant for product managers to generate product documentation and prioritization.")
+st.write("AI assistant to help product managers generate product documentation.")
 
-client = OpenAI(api_key="YOUR_OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 feature = st.selectbox(
     "Choose a tool",
     [
         "Generate PRD",
         "Generate User Stories",
-        "Feature Prioritization (RICE)",
+        "Feature Prioritization",
         "Define MVP Scope"
     ]
 )
 
-user_input = st.text_area("Enter your product idea or feature")
+idea = st.text_area("Enter your product idea")
 
 if st.button("Run AI Tool"):
 
     prompt = f"""
     You are an expert product manager.
 
-    Based on the following input:
+    Based on the following idea:
 
-    {user_input}
+    {idea}
 
     Perform this task: {feature}
 
