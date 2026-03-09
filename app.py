@@ -18,21 +18,100 @@ idea = st.text_area("Enter your product idea")
 if st.button("Run AI Tool"):
 
     if feature == "Generate PRD":
-        result = f"""
-### Problem Statement
-Users struggle with the following problem: {idea}
+    result = f"""
+## Product Requirement Document (PRD)
 
-### Target Users
-- Primary users who face this challenge
-- Early adopters interested in productivity tools
+### 1. Product Overview
+The product aims to solve the following problem:
 
-### Proposed Solution
-A product that addresses the problem through automation and intelligent workflows.
+**{idea}**
 
-### Success Metrics
+This solution focuses on improving efficiency, accessibility, and user experience through a streamlined digital workflow.
+
+---
+
+### 2. Problem Statement
+Many users currently face friction when dealing with this problem. Existing solutions may be fragmented, manual, or inefficient.
+
+Key challenges include:
+- Lack of convenient solutions
+- Time-consuming processes
+- Poor user experience in existing tools
+
+---
+
+### 3. Target Users
+**Primary Users**
+- Individuals directly experiencing the problem
+- Users seeking a faster and more convenient solution
+
+**Secondary Users**
+- Businesses or stakeholders who benefit indirectly from improved workflows
+
+---
+
+### 4. User Personas
+**Persona 1: Everyday User**
+Needs a simple and intuitive solution to quickly address the problem.
+
+**Persona 2: Power User**
+Requires more advanced functionality and reliability for frequent usage.
+
+---
+
+### 5. User Stories
+
+1. As a user, I want to use this solution so that I can address the problem quickly.
+2. As a user, I want a simple interface so that I can easily navigate the product.
+3. As a user, I want reliable results so that I trust the platform.
+
+---
+
+### 6. Core Features
+- Core functionality addressing the main problem
+- User-friendly interface
+- Reliable processing of user inputs
+- Scalable architecture for future improvements
+
+---
+
+### 7. MVP Scope
+The Minimum Viable Product will include:
+
+- Basic functionality to solve the primary user problem
+- Simple onboarding experience
+- Core workflow execution
+- Basic analytics for product monitoring
+
+---
+
+### 8. Success Metrics
+The success of the product will be measured using:
+
 - User adoption rate
-- Feature engagement
-- Retention rate
+- Daily/Monthly active users
+- Feature engagement rate
+- User retention rate
+
+---
+
+### 9. Risks & Considerations
+Potential risks include:
+
+- Low initial adoption
+- Technical limitations during early development
+- User trust and reliability concerns
+
+Mitigation strategies include iterative development and continuous user feedback.
+
+---
+
+### 10. Future Enhancements
+Potential future improvements:
+
+- Advanced automation features
+- Personalization capabilities
+- Integrations with external platforms
 """
 
     elif feature == "Generate User Stories":
@@ -74,3 +153,4 @@ Future Enhancements:
 """
 
     st.markdown(result)
+
